@@ -2,7 +2,7 @@ import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 // TODO: Replace the following with your app's Firebase project configuration
 const firebaseConfig = {
-  apiKey: 'AIzaSyAMfglzUf_GSWqgkJlsaIzOiHPAZVYVldk',
+  apiKey: process.env.REACT_APP_APIKEY,
   authDomain: 'dynamic-form-6277d.firebaseapp.com',
   projectId: 'dynamic-form-6277d',
   storageBucket: 'dynamic-form-6277d.appspot.com',
