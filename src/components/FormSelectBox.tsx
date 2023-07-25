@@ -4,9 +4,18 @@ import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
 
 const FormSelectBox = ({ sectors }: any) => {
   const [selected, setSelected] = useState('');
+
   const sectorArray = Object.keys(sectors).map((key) => [
     { title: key, options: sectors[key] },
   ]);
+
+  // Extract sector option with sub-option
+  const SectorOptionWithChildren = (option: any) => {
+    return Object.keys(option).map((key: any) => [
+      { title: key, subOptions: option[key] },
+    ]);
+  };
+
   return (
     <div className="w-85">
       <label htmlFor="select" className="font-normal text-teal-900 text-sm">
@@ -51,20 +60,60 @@ const FormSelectBox = ({ sectors }: any) => {
                             <CheckIcon className="h-5 w-5" aria-hidden="true" />
                           </span>
                         ) : null}
-                        {content.options.map((option: string) => (
-                          <Listbox.Option
-                            value={option}
-                            className={({ active }) =>
-                              `relative cursor-default select-none py-1 pl-5 pr-4 ${
-                                active
-                                  ? 'bg-amber-100 text-amber-900'
-                                  : 'text-gray-900'
-                              }`
-                            }
-                          >
-                            {option}
-                          </Listbox.Option>
-                        ))}
+
+                        {content.options.map(
+                          (option: string | object, index: number) => (
+                            <>
+                              <Listbox.Option
+                                key={index}
+                                disabled={typeof option !== 'string'}
+                                value={
+                                  typeof option === 'string'
+                                    ? option
+                                    : SectorOptionWithChildren(option).map(
+                                        (opt) =>
+                                          opt.map((innerOpt) => innerOpt.title)
+                                      )
+                                }
+                                className={({ active }) =>
+                                  `relative cursor-default select-none py-1 pl-5 pr-4 ${
+                                    active
+                                      ? 'bg-amber-100 text-amber-900'
+                                      : 'text-gray-900'
+                                  }`
+                                }
+                              >
+                                {typeof option === 'string'
+                                  ? option
+                                  : SectorOptionWithChildren(option).map(
+                                      (opt) =>
+                                        opt.map((innerOpt) => (
+                                          <div key={innerOpt.title}>
+                                            <span>{innerOpt.title}</span>
+                                            {innerOpt.subOptions.map(
+                                              (item: string) => (
+                                                <Listbox.Option
+                                                  key={item}
+                                                  value={item}
+                                                  className={({ active }) =>
+                                                    `relative cursor-default select-none py-1 pl-10 pr-4 ${
+                                                      active
+                                                        ? 'bg-amber-100 text-amber-900'
+                                                        : 'text-gray-900'
+                                                    }`
+                                                  }
+                                                >
+                                                  {item}
+                                                </Listbox.Option>
+                                              )
+                                            )}
+                                          </div>
+                                        ))
+                                    )}
+                              </Listbox.Option>
+                            </>
+                          )
+                        )}
                       </>
                     )}
                   </Listbox.Option>
