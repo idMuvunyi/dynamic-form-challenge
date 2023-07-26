@@ -1,13 +1,12 @@
-import React, { MouseEventHandler } from 'react';
+import React from 'react';
 
 interface ButtonProps {
   title: string;
-  handleBtnClick: MouseEventHandler<HTMLButtonElement>;
 }
 
-const CustomButton = ({ title, handleBtnClick }: ButtonProps) => {
+const CustomButton = ({ title }: ButtonProps) => {
   return (
-    <button type="button" onClick={handleBtnClick} className="button_styles">
+    <button type="submit" className="button_styles">
       {title}
     </button>
   );

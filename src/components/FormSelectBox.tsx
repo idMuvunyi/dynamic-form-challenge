@@ -2,9 +2,8 @@ import React, { Fragment, useState } from 'react';
 import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
 
-const FormSelectBox = ({ sectors }: any) => {
-  const [selected, setSelected] = useState('');
-
+const FormSelectBox = ({ sectors, selectedSector, setSelectedSector }: any) => {
+  // convert sectors object to array for easy access
   const sectorArray = Object.keys(sectors).map((key) => [
     { title: key, options: sectors[key] },
   ]);
@@ -21,10 +20,10 @@ const FormSelectBox = ({ sectors }: any) => {
       <label htmlFor="select" className="font-normal text-teal-900 text-sm">
         Sectors
       </label>
-      <Listbox value={selected} onChange={setSelected}>
+      <Listbox value={selectedSector} onChange={setSelectedSector}>
         <div className="relative mt-1 z-10">
           <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
-            <span className="block truncate">{selected}</span>
+            <span className="block truncate">{selectedSector}</span>
             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
               <ChevronUpDownIcon
                 className="h-5 w-5 text-gray-400"
@@ -42,7 +41,6 @@ const FormSelectBox = ({ sectors }: any) => {
               {sectorArray?.map((sector: any) =>
                 sector.map((content: any, index: number) => (
                   <Listbox.Option
-                    placeholder="Service"
                     disabled
                     key={index}
                     value={content.title}
@@ -63,55 +61,52 @@ const FormSelectBox = ({ sectors }: any) => {
 
                         {content.options.map(
                           (option: string | object, index: number) => (
-                            <>
-                              <Listbox.Option
-                                key={index}
-                                disabled={typeof option !== 'string'}
-                                value={
-                                  typeof option === 'string'
-                                    ? option
-                                    : SectorOptionWithChildren(option).map(
-                                        (opt) =>
-                                          opt.map((innerOpt) => innerOpt.title)
-                                      )
-                                }
-                                className={({ active }) =>
-                                  `relative cursor-default select-none py-1 pl-5 pr-4 ${
-                                    active
-                                      ? 'bg-amber-100 text-amber-900'
-                                      : 'text-gray-900'
-                                  }`
-                                }
-                              >
-                                {typeof option === 'string'
+                            <Listbox.Option
+                              key={index}
+                              disabled={typeof option !== 'string'}
+                              value={
+                                typeof option === 'string'
                                   ? option
                                   : SectorOptionWithChildren(option).map(
                                       (opt) =>
-                                        opt.map((innerOpt) => (
-                                          <div key={innerOpt.title}>
-                                            <span>{innerOpt.title}</span>
-                                            {innerOpt.subOptions.map(
-                                              (item: string) => (
-                                                <Listbox.Option
-                                                  key={item}
-                                                  value={item}
-                                                  className={({ active }) =>
-                                                    `relative cursor-default select-none py-1 pl-10 pr-4 ${
-                                                      active
-                                                        ? 'bg-amber-100 text-amber-900'
-                                                        : 'text-gray-900'
-                                                    }`
-                                                  }
-                                                >
-                                                  {item}
-                                                </Listbox.Option>
-                                              )
-                                            )}
-                                          </div>
-                                        ))
-                                    )}
-                              </Listbox.Option>
-                            </>
+                                        opt.map((innerOpt) => innerOpt.title)
+                                    )
+                              }
+                              className={({ active }) =>
+                                `relative cursor-default select-none py-1 pl-5 pr-4 ${
+                                  active
+                                    ? 'bg-amber-100 text-amber-900'
+                                    : 'text-gray-900'
+                                }`
+                              }
+                            >
+                              {typeof option === 'string'
+                                ? option
+                                : SectorOptionWithChildren(option).map((opt) =>
+                                    opt.map((innerOpt) => (
+                                      <div key={innerOpt.title}>
+                                        <span>{innerOpt.title}</span>
+                                        {innerOpt.subOptions.map(
+                                          (item: string) => (
+                                            <Listbox.Option
+                                              key={item}
+                                              value={item}
+                                              className={({ active }) =>
+                                                `relative cursor-default select-none py-1 pl-10 pr-4 ${
+                                                  active
+                                                    ? 'bg-amber-100 text-amber-900'
+                                                    : 'text-gray-900'
+                                                }`
+                                              }
+                                            >
+                                              {item}
+                                            </Listbox.Option>
+                                          )
+                                        )}
+                                      </div>
+                                    ))
+                                  )}
+                            </Listbox.Option>
                           )
                         )}
                       </>

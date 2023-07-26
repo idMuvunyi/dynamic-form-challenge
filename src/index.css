@@ -10,8 +10,8 @@
 }
 
 .input_styles {
-  @apply w-full h-[35px] pl-5 p-4  text-teal-900 bg-white rounded-md cursor-pointer shadow-md focus:outline-none focus-visible:border-white focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-100 sm:text-sm;
+  @apply w-full h-[35px] pl-5 p-4  bg-white rounded-md cursor-pointer shadow-md focus:outline-none focus-visible:border-white focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-100 sm:text-sm;
 }
 .button_styles {
-  @apply w-full md:w-1/4 flex mt-5 flex-row relative justify-center items-center py-2 px-6 outline-none bg-teal-700 text-white text-sm rounded-full;
+  @apply w-full md:w-1/4 flex mt-5 flex-row relative justify-center items-center py-2 px-6 outline-none bg-teal-500 text-white text-sm rounded-full;
 }

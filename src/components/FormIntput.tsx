@@ -6,7 +6,6 @@ interface FormInputProps {
 }
 
 const FormIntput = ({ name, setName }: FormInputProps) => {
-  console.log(name);
   return (
     <div className="flex">
       <div className="flex flex-col gap-2 mb-8 mt-10 w-full">
@@ -17,8 +16,9 @@ const FormIntput = ({ name, setName }: FormInputProps) => {
           type="text"
           name="name"
           id="name"
+          required
+          minLength={5}
           value={name}
-          defaultValue={name}
           placeholder="John Doe"
           className="input_styles"
           onChange={(e) => setName(e.target.value)}
