@@ -1,7 +1,15 @@
 import React from 'react';
 
-const CustomButton = () => {
-  return <div>CustomButton</div>;
+interface ButtonProps {
+  title: string;
+}
+
+const CustomButton = ({ title }: ButtonProps) => {
+  return (
+    <button type="submit" className="button_styles">
+      {title}
+    </button>
+  );
 };
 
 export default CustomButton;
