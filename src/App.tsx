@@ -1,15 +1,17 @@
 import React, { FormEvent, useEffect, useState } from 'react';
 import './index.css';
-import {
-  CustomButton,
-  FormCheckBox,
-  FormIntput,
-  FormSelectBox,
-  Modal,
-} from './components';
+import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
-import { collection, updateDoc, getDocs, doc } from '@firebase/firestore';
+import { collection, updateDoc, doc } from '@firebase/firestore';
 import { db } from './utils';
+import { AddSectors, EditSectors } from './pages';
+
+// Page layout container
+const PageLayout = () => (
+  <main className="Container mx-auto p-10 flex flex-col justify-center items-center">
+    <Outlet />
+  </main>
+);
 
 function App() {
   // get database instance
@@ -37,6 +39,7 @@ function App() {
   // submit the form to database
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     // get reference to only the user details document
     const docReference = doc(db, 'sectors', 'userDetails');
 
@@ -55,27 +58,46 @@ function App() {
   };
 
   return (
-    <main className="Container mx-auto p-10 flex flex-col justify-center items-center">
-      <form action="" onSubmit={handleSubmit}>
-        <div className="w-90">
-          <div className="flex flex-1 flex-col content-center">
-            <h4 className="md:text-xl font-bold text-teal-900 flex p-5  mb-10 bg-orange-100 text-center sm:text-sm rounded-md">
-              Please enter your name and pick the Sectors you are currently
-              involved in
-            </h4>
-            <FormIntput name={userName} setName={setName} />
-          </div>
-          <FormSelectBox
-            sectors={sectors}
-            selectedSector={chosenSector}
-            setSelectedSector={setChosenSector}
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<PageLayout />}>
+          <Route
+            index
+            element={
+              <AddSectors
+                userName={userName}
+                setName={setName}
+                sectors={sectors}
+                selectedSector={chosenSector}
+                setSelectedSector={setChosenSector}
+                isAgreed={isAgreed}
+                setIsAgreed={setIsAgreed}
+                isOpen={isOpen}
+                closeModal={() => setIsOpen(false)}
+                onSubmit={handleSubmit}
+              />
+            }
           />
-          <FormCheckBox isAgreed={isAgreed} setIsAgreed={setIsAgreed} />
-          <CustomButton title="Save" />
-        </div>
-      </form>
-      <Modal isOpen={isOpen} closeModal={() => setIsOpen(false)} />
-    </main>
+          <Route
+            path="edit"
+            element={
+              <EditSectors
+                userName={userName}
+                setName={setName}
+                sectors={sectors}
+                selectedSector={chosenSector}
+                setSelectedSector={setChosenSector}
+                isAgreed={isAgreed}
+                setIsAgreed={setIsAgreed}
+                isOpen={isOpen}
+                closeModal={() => setIsOpen(false)}
+                onSubmit={handleSubmit}
+              />
+            }
+          />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 

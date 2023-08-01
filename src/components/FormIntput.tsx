@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-interface FormInputProps {
-  name: string;
+export interface FormInputProps {
+  name?: string;
   setName: (e: string) => void;
+  isAddView?: boolean;
 }
 
-const FormIntput = ({ name, setName }: FormInputProps) => {
+// input reusable component
+
+const FormIntput = ({ name, setName, isAddView }: FormInputProps) => {
+  const [nam, setNam] = useState<string>('');
+
   return (
     <div className="flex">
       <div className="flex flex-col gap-2 mb-8 mt-10 w-full">
@@ -14,14 +19,18 @@ const FormIntput = ({ name, setName }: FormInputProps) => {
         </label>
         <input
           type="text"
+          autoFocus={true}
           name="name"
           id="name"
           required
           minLength={5}
-          value={name}
+          value={isAddView ? nam : name}
           placeholder="John Doe"
           className="input_styles"
-          onChange={(e) => setName(e.target.value)}
+          onChange={(e) => {
+            setName(e.target.value);
+            setNam(e.target.value);
+          }}
         />
       </div>
     </div>

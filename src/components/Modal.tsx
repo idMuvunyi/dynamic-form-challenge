@@ -1,12 +1,15 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
+import { Link } from 'react-router-dom';
 
 interface ModalProps {
   isOpen: boolean;
+  isAddView: boolean;
   closeModal: () => void;
+  styles?: string;
 }
 
-const Modal = ({ isOpen, closeModal }: ModalProps) => {
+const Modal = ({ isOpen, isAddView, closeModal, styles }: ModalProps) => {
   return (
     <>
       <Transition appear show={isOpen} as={Fragment}>
@@ -39,23 +42,35 @@ const Modal = ({ isOpen, closeModal }: ModalProps) => {
                     as="h3"
                     className="text-md font-medium leading-6 text-teal-900"
                   >
-                    Sector Record successful
+                    {isAddView
+                      ? 'Sector Saved successfully'
+                      : 'Information updated Successfully'}
                   </Dialog.Title>
                   <div className="mt-2">
                     <p className="text-sm text-gray-500">
-                      You have successfully saved your sector and name in our
-                      database. Thank you !
+                      {isAddView
+                        ? ' You have successfully saved your sector and name in our database. Thank you !'
+                        : 'You have successfully updated your sector and name in our database. Thank you !'}
                     </p>
                   </div>
 
-                  <div className="mt-4">
+                  <div className="mt-4 flex justify-between">
                     <button
                       type="button"
-                      className="inline-flex justify-center rounded-md border border-transparent bg-teal-500 px-4 py-1 text-sm font-medium text-white hover:bg-teal-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2"
+                      className={`inline-flex justify-center rounded-md border border-transparent bg-teal-500 px-4 py-1 text-sm font-medium text-white hover:bg-teal-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2`}
                       onClick={closeModal}
                     >
-                      Ok!
+                      Ok
                     </button>
+                    <Link to={isAddView ? '/edit' : '/'}>
+                      <button
+                        type="button"
+                        className="inline-flex justify-center rounded-md border border-transparent bg-teal-500 px-4 py-1 text-sm font-medium text-white hover:bg-teal-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2"
+                        onClick={closeModal}
+                      >
+                        {isAddView ? 'Edit Info' : 'Go Back'}
+                      </button>
+                    </Link>
                   </div>
                 </Dialog.Panel>
               </Transition.Child>

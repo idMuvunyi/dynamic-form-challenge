@@ -1,12 +1,13 @@
 import React from 'react';
 
-interface ButtonProps {
+export interface ButtonProps {
   title: string;
+  additionalStyles?: string;
 }
 
-const CustomButton = ({ title }: ButtonProps) => {
+const CustomButton = ({ title, additionalStyles }: ButtonProps) => {
   return (
-    <button type="submit" className="button_styles">
+    <button type="submit" className={`button_styles ${additionalStyles}`}>
       {title}
     </button>
   );
